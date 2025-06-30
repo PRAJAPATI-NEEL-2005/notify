@@ -4,12 +4,13 @@ const User = require("../Models/Users");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 var jwt = require("jsonwebtoken");
+const fetchuser = require("../Middleware/fetchuser");
 const JWT_SECRET = "neelisag$oy";
 // @route   POST /
 // @desc    Register user
 // @access  Public
 
-// that is the api for to create user
+// ROUTE :1 createuser path : "http://localhost:5000/api/auth/createuser" that is the api for to create user
 router.post(
   "/createuser",
   [
@@ -68,7 +69,7 @@ router.post(
   }
 );
 
-//that is the api for login the user
+//ROUTE :2 loginuser path : "http://localhost:5000/api/auth/loginuser"that is the api for login the user
 router.post(
   "/loginuser",
   [
@@ -118,5 +119,23 @@ router.post(
     }
   }
 );
+
+
+
+router.post(
+  "/getuser",fetchuser,async (req, res) => {
+try {
+   userId=req.user.id;
+
+   const user=await User.findById(userId).select("-password");
+   res.send(user);
+   
+} catch (error) {
+     console.error(error.message);
+      return res.status(500).json({ error: "Server Error" });
+   
+}
+
+  })
 
 module.exports = router;
