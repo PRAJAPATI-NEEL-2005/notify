@@ -3,7 +3,8 @@ const { body, validationResult } = require('express-validator');
 const User = require('../Models/Users');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
-
+var jwt = require('jsonwebtoken');
+const JWT_SECRET='neelisag$oy';
 // @route   POST /
 // @desc    Register user
 // @access  Public
@@ -45,15 +46,18 @@ router.post(
         password:hashedPassword
       });
       await newUser.save();
+const data={
+   user:{
+      id:newUser._id
+   }
+}
+const jwtdata=jwt.sign(data,JWT_SECRET);
 
       return res.status(200).json({
          success: true,
         message: 'User created successfully',
-        user: {
-          id: newUser._id,
-          name: newUser.name,
-          email: newUser.email,
-        },
+        jwtdata
+        
       });
     } catch (error) {
       console.error(error.message);
