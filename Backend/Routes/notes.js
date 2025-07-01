@@ -42,4 +42,51 @@ res.json(savednote);
 }
 
 })
+
+
+//ROUTE 3: update notes
+
+router.put('/updatenotes/:id',fetchuser,[
+    body("title", "title must be at least 3 characters").isLength({ min: 3 }),
+    body("description", "Please enter a valid description").isLength({min: 5,})],async(req,res)=>{
+
+     const { title, description, tag } = req.body;
+
+  try {
+    // Validate input
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Create a newNote object
+    const newNote = {};
+    if (title) newNote.title = title;
+    if (description) newNote.description = description;
+    if (tag) newNote.tag = tag;
+
+    // Find the note to be updated
+    let note = await Notes.findById(req.params.id);
+    if (!note) return res.status(404).json({ error: "Note not found" });
+
+    // Check if the note belongs to the logged-in user
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Update the note
+    note = await Notes.findByIdAndUpdate(
+      req.params.id,
+      { $set: newNote },
+      { new: true }
+    );
+
+    res.json(note);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server Error" });
+  }
+
+
+})
 module.exports=router
