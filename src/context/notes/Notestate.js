@@ -59,8 +59,22 @@ const NoteState = (props) => {
   }
 ]
 const [notes, setnotes] = useState(initialNotes);
+  const addNote = (title, description, tag) => {
+    const newNote = {
+      _id: Date.now().toString(), // using timestamp as ID for now
+      user: "dummy-user-id",
+      title,
+      description,
+      tag,
+      date: new Date().toISOString(),
+      __v: 0
+    };
+    setnotes([...notes, newNote]);
+  };
+
+
   return (
-  <NoteContext.Provider value={{notes,setnotes}}>
+  <NoteContext.Provider value={{notes,setnotes,addNote}}>
 
 {props.children}
 
