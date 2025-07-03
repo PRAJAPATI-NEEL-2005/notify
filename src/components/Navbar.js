@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router";
-
+import { NavLink } from "react-router";
+import { useLocation } from "react-router";
 function Navbar() {
+ 
+  const location=useLocation();
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-dark bg-dark navbar-expand-lg ">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <NavLink className="navbar-brand" to="/">
           Navbar
-        </Link>
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -22,14 +25,14 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/home">
+              <NavLink className={`nav-link ${location.pathname==="/home" ?"active":""} `} aria-current="page" to="/home">
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">
+              <NavLink className={`nav-link ${location.pathname==="/about" ?"active":""}`} to="/about">
                 About
-              </Link>
+              </NavLink>
             </li>
           </ul>
           <form className="d-flex" role="search">
