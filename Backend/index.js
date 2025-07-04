@@ -1,8 +1,10 @@
 const { use } = require('react');
 const connectToMongo=require('./db.js');
+var cors = require('cors')
 const express = require('express')
 const app = express()
-app.use(express.json()); //used for json data passing in api
+app.use(express.json());
+app.use(cors()) //used for json data passing in api
 const port = 5000
 
 connectToMongo();
