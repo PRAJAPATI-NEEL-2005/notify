@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState , useContext} from "react";
 import NoteContext from "./noteContext";
+import AuthContext from "../authentication/authContext";
 
 const NoteState = (props) => {
+  const {token, isAuthenticated} = useContext(AuthContext)
   const host = "http://localhost:5000";
-  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg2MjMwNjkzOGQwMmRjMWZiZThjY2NiIn0sImlhdCI6MTc1MTI3MTk0OH0.4MxJvaZLGasACtG6E093PR22rWTK-rvS8j0Fh30WfaQ"; // replace with your actual token or store securely
+  const authToken = token; // replace with your actual token or store securely
 
   const [notes, setNotes] = useState([]);
 
