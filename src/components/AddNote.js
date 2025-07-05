@@ -32,6 +32,7 @@ function AddNote() {
                 className="form-control" 
                 id="title" 
                 name="title" 
+                minLength={5}
                 value={note.title}
                 onChange={handleChange}
                 required
@@ -44,6 +45,7 @@ function AddNote() {
                 className="form-control" 
                 id="description" 
                 name="description" 
+                minLength={5}
                 rows="3"
                 value={note.description}
                 onChange={handleChange}
