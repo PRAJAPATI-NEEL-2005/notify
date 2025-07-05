@@ -1,11 +1,4 @@
-# Highlight JavaScript/React correctly
-*.js linguist-language=JavaScript
-*.jsx linguist-language=JavaScript
-*.ts linguist-language=TypeScript
-*.tsx linguist-language=TypeScript
-*.json linguist-language=JSON
-*.html linguist-language=HTML
-*.css linguist-language=CSS
+
 
 # Treat build and node_modules as vendored (ignored in language stats)
 build/* linguist-vendored
