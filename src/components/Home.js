@@ -32,7 +32,8 @@ function Home() {
   return (
     <div className='container'>
       <h1>Add Note</h1>
-      <AddNote />
+      <div className="container "><AddNote /></div>
+      
 
       <h1>Your Notes</h1>
       <div className='row my-3'>
@@ -45,25 +46,61 @@ function Home() {
       </div>
 
       {/* Single Global Modal */}
-      <div className="modal fade" id="editModal" tabIndex="-1" aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Edit Note</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div className="modal-body">
-              <input name="title" type="text" className="form-control my-2" placeholder="Title" value={noteToEdit?.title || ''} onChange={handleChange} />
-              <textarea name="description" className="form-control my-2" placeholder="Description" value={noteToEdit?.description || ''} onChange={handleChange} />
-              <input name="tag" type="text" className="form-control my-2" placeholder="Tag" value={noteToEdit?.tag || ''} onChange={handleChange} />
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSaveChanges}>Save changes</button>
-            </div>
-          </div>
+    <div className="modal fade" id="editModal" tabIndex="-1" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSaveChanges(); // Only called if form is valid
+        }}
+      >
+        <div className="modal-header">
+          <h5 className="modal-title">Edit Note</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
         </div>
-      </div>
+        <div className="modal-body">
+          <input
+            name="title"
+            type="text"
+            minLength={5}
+            required
+            className="form-control my-2"
+            placeholder="Title"
+            value={noteToEdit?.title || ''}
+            onChange={handleChange}
+          />
+          <textarea
+            name="description"
+            minLength={5}
+            required
+            className="form-control my-2"
+            placeholder="Description"
+            value={noteToEdit?.description || ''}
+            onChange={handleChange}
+          />
+          <input
+            name="tag"
+            type="text"
+            required
+            className="form-control my-2"
+            placeholder="Tag"
+            value={noteToEdit?.tag || ''}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
     </div>
   );
 }
