@@ -6,9 +6,11 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NoteState from "./context/notes/Notestate";
+import Authstate from "./context/authentication/Authstate";
 
 function App() {
   return (
+    <Authstate>
     <NoteState>
     <div className="App">
       <Router>
@@ -24,6 +26,7 @@ function App() {
       </Router>
     </div>
     </NoteState>
+    </Authstate>
   );
 }
 
