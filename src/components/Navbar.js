@@ -6,21 +6,17 @@ import { useNavigate } from "react-router";
 
 import AuthContext from "../context/authentication/authContext";
 function Navbar() {
-  const {isAuthenticated,setIsAuthenticated} = useContext(AuthContext)
-  const navigate=useNavigate();
- const handlelogout=()=>
-        {
-  localStorage.removeItem('token');         // Remove auth token
-  setIsAuthenticated(false);                // Update auth state
-  navigate('/login');
-
-        } 
-      const handlesignup=()=>
-        {
-navigate('/signup')
-
-        }    
- const location=useLocation();
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handlelogout = () => {
+    localStorage.removeItem("token"); // Remove auth token
+    setIsAuthenticated(false); // Update auth state
+    navigate("/login");
+  };
+  const handlesignup = () => {
+    navigate("/signup");
+  };
+  const location = useLocation();
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-lg ">
       <div className="container-fluid">
@@ -41,22 +37,46 @@ navigate('/signup')
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink className={`nav-link ${location.pathname==="/home" ?"active":""} `} aria-current="page" to="/home">
+              <NavLink
+                className={`nav-link ${
+                  location.pathname === "/home" ? "active" : ""
+                } `}
+                aria-current="page"
+                to="/home"
+              >
                 Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className={`nav-link ${location.pathname==="/about" ?"active":""}`} to="/about">
+              <NavLink
+                className={`nav-link ${
+                  location.pathname === "/about" ? "active" : ""
+                }`}
+                to="/about"
+              >
                 About
               </NavLink>
             </li>
           </ul>
           <form className="d-flex" role="search">
-         
-            <Link className="btn btn-primary"  role="button" onClick={(isAuthenticated)?handlelogout:handlesignup} >{(isAuthenticated)?"log out":"signup"}</Link>
-            
-
-
+          {isAuthenticated ? (
+    <button
+      className="btn btn-primary"
+      type="button"
+      onClick={handlelogout}
+    >
+      Logout
+    </button>
+  ) : (
+    <Link
+      className="btn btn-primary"
+      role="button"
+      to="/signup"
+    >
+      Signup
+    </Link>
+  )}
+           
           </form>
         </div>
       </div>
