@@ -2,16 +2,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import NoteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
-
+import AuthContext from '../context/authentication/authContext';
+import { useNavigate } from 'react-router-dom';
 function Home() {
   const context = useContext(NoteContext);
   const { notes, fetchNotes, editNote } = context;
+  const {isAuthenticated}=useContext(AuthContext);
 
   const [noteToEdit, setNoteToEdit] = useState(null);
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+const navigate=useNavigate();
+ useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login'); 
+    } else {
+      fetchNotes(); 
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleEditClick = (note) => {
     setNoteToEdit({ ...note }); // set note in modal
