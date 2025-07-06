@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router";
 import { NavLink } from "react-router";
 import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
+
+import AuthContext from "../context/authentication/authContext";
 function Navbar() {
- 
-  const location=useLocation();
+  const {isAuthenticated,setIsAuthenticated} = useContext(AuthContext)
+  const navigate=useNavigate();
+ const handlelogout=()=>
+        {
+  localStorage.removeItem('token');         // Remove auth token
+  setIsAuthenticated(false);                // Update auth state
+  navigate('/login');
+
+        } 
+      const handlesignup=()=>
+        {
+navigate('/signup')
+
+        }    
+ const location=useLocation();
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-lg ">
       <div className="container-fluid">
@@ -36,9 +52,9 @@ function Navbar() {
             </li>
           </ul>
           <form className="d-flex" role="search">
-           
-            <Link className="btn btn-primary" to="/signup" role="button">Signup</Link>
-             <Link className="btn btn-primary mx-2" to="/login" role="button">Login</Link>
+         
+            <Link className="btn btn-primary"  role="button" onClick={(isAuthenticated)?handlelogout:handlesignup} >{(isAuthenticated)?"log out":"signup"}</Link>
+            
 
 
           </form>
