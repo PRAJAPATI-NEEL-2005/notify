@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import AuthContext from '../context/authentication/authContext';
-
+import { useNavigate } from 'react-router-dom';
 function Login() {
   const { login } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-
+const navigate=useNavigate();
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
@@ -14,7 +14,7 @@ function Login() {
     const result = await login(credentials.email, credentials.password);
     if (result.success) {
       alert("Login successful!");
-      // Optionally navigate to dashboard
+      navigate('/home');
     } else {
       alert(result.message);
     }
