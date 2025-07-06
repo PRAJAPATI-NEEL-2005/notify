@@ -36,7 +36,7 @@ router.post(
       if (existingUser) {
         return res
           .status(400)
-          .json({ error: "User with this email already exists" });
+          .json({ success: "false", error: "User with this email already exists" });
       }
 
       // Hash the password
@@ -64,7 +64,7 @@ router.post(
       });
     } catch (error) {
       console.error(error.message);
-      return res.status(500).json({ error: "Server Error" });
+      return res.status(500).json({ success:"false",error: "Server Error" });
     }
   }
 );
@@ -92,14 +92,14 @@ router.post(
       if (!existingUser) {
         return res
           .status(400)
-          .json({ error: "try to login with correct credential" });
+          .json({ success:"false", error: "try to login with correct credential" });
       }
       // comparing the password with databse user
       const compare = await bcrypt.compare(password, existingUser.password);
       if (!compare) {
         return res
           .status(400)
-          .json({ error: "try to login with correct credential" });
+          .json({success:"false", error: "try to login with correct credential" });
       }
       // returning the data
       const data = {
@@ -115,7 +115,7 @@ router.post(
       });
     } catch (error) {
       console.error(error.message);
-      return res.status(500).json({ error: "Server Error" });
+      return res.status(500).json({ success:"false",error: "Server Error" });
     }
   }
 );
