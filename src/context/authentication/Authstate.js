@@ -31,8 +31,34 @@ const host = "http://localhost:5000";
     }
   };
 
+
+  const signup = async (name ,email, password) => {
+    try {
+      const response = await fetch(`${host}/api/auth/createuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name,email, password }),
+      });
+
+      const json = await response.json();
+
+      if (response.status === 200 && json.success) {
+        localStorage.setItem("token", json.jwtdata);
+        setToken(json.jwtdata);
+        setIsAuthenticated(true);
+        return { success: true, message: json.message };
+      } else {
+        return { success: false, message: json.message || "signup failed" };
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      return { success: false, message: "Something went wrong" };
+    }
+  };
   return (
-    <AuthContext.Provider value={{ token, isAuthenticated, login }}>
+    <AuthContext.Provider value={{ token, isAuthenticated,setIsAuthenticated ,login ,signup }}>
       {props.children}
     </AuthContext.Provider>
   );
