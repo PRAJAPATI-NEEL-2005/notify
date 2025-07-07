@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import NoteContext from '../context/notes/noteContext';
 
-function AddNote() {
+function AddNote(props) {
   const { addNote } = useContext(NoteContext);
 
   const [note, setNote] = useState({
@@ -14,9 +14,14 @@ function AddNote() {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    addNote(note.title, note.description, note.tag);
+    const success=await addNote(note.title, note.description, note.tag);
+    if (success) {
+      props.showalert("note added successfully","success");
+    } else {
+      props.showalert("some error occured","danger");
+    }
     setNote({ title: '', description: '', tag: '' });
   };
 

@@ -1,11 +1,19 @@
 import React, { useState, useContext } from 'react';
 import AuthContext from '../context/authentication/authContext';
 import { useNavigate } from 'react-router-dom';
-function Login() {
+
+
+
+
+
+
+
+
+function Login(props) {
   const { login } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
    
-const navigate=useNavigate();
+ const navigate=useNavigate();
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
@@ -16,14 +24,22 @@ const navigate=useNavigate();
     e.preventDefault();
     const result = await login(credentials.email, credentials.password);
     if (result.success) {
-      alert("Login successful!");
+    
+       props.showalert("Login successful!","success");
       navigate('/home');
+   
     } else {
-      alert(result.message);
+    
+      props.showalert(result.message,"danger");
     }
   };
 
   return (
+  
+  <>
+
+
+
      <div className="d-flex justify-content-center align-items-center my-5">
   <div
     className="card shadow border-0"
@@ -84,7 +100,7 @@ const navigate=useNavigate();
   </div>
 </div>
 
- 
+ </>
 
   
   );
