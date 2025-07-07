@@ -5,17 +5,16 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 import AuthContext from "../context/authentication/authContext";
-function Navbar() {
+function Navbar(props) {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const handlelogout = () => {
-    localStorage.removeItem("token"); // Remove auth token
-    setIsAuthenticated(false); // Update auth state
-    navigate("/login");
+      localStorage.removeItem("token"); 
+  setIsAuthenticated(false);     
+  props.showalert("logged out successfully","success")
+  navigate("/login");  
   };
-  const handlesignup = () => {
-    navigate("/signup");
-  };
+
   const location = useLocation();
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-lg ">
@@ -59,24 +58,19 @@ function Navbar() {
             </li>
           </ul>
           <form className="d-flex" role="search">
-          {isAuthenticated ? (
-    <button
-      className="btn btn-primary"
-      type="button"
-      onClick={handlelogout}
-    >
-      Logout
-    </button>
-  ) : (
-    <Link
-      className="btn btn-primary"
-      role="button"
-      to="/signup"
-    >
-      Signup
-    </Link>
-  )}
-           
+            {isAuthenticated ? (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={handlelogout}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link className="btn btn-primary" role="button" to="/signup">
+                Signup
+              </Link>
+            )}
           </form>
         </div>
       </div>

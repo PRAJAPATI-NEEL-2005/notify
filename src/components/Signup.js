@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthContext from '../context/authentication/authContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-function Signup() {
+function Signup(props) {
   const navigate=useNavigate();
   const [credentials, setCredentials] = useState({
     name: '',
@@ -22,10 +22,11 @@ const goToLogin = () => {
 
     const result = await signup(credentials.name,credentials.email, credentials.password);
     if (result.success) {
-      alert("signup successful!");
+      props.showalert("signup successful!","success");
       navigate('/home');
     } else {
-      alert(result.message);
+            props.showalert(result.message,"danger");
+
     }
   
   };

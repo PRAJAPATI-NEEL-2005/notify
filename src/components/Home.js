@@ -4,13 +4,21 @@ import NoteItem from './NoteItem';
 import AddNote from './AddNote';
 import AuthContext from '../context/authentication/authContext';
 import { useNavigate } from 'react-router-dom';
-function Home() {
+function Home(props) {
   const context = useContext(NoteContext);
-  const { notes, fetchNotes, editNote } = context;
+  const { notes, fetchNotes, editNote,deleteNote } = context;
   const {isAuthenticated}=useContext(AuthContext);
 
   const [noteToEdit, setNoteToEdit] = useState(null);
 const navigate=useNavigate();
+   const handledelete=async(note_id)=>{
+    const success=await deleteNote(note_id);
+    if (success) {
+      props.showalert("note deleted successfully","success");
+    } else {
+      props.showalert("some error occured","danger");
+    }
+   }
  useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login'); 
@@ -25,9 +33,16 @@ const navigate=useNavigate();
     modal.show();
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async() => {
     if (noteToEdit) {
-      editNote(noteToEdit._id, noteToEdit.title, noteToEdit.description, noteToEdit.tag);
+
+      const success= await editNote(noteToEdit._id, noteToEdit.title, noteToEdit.description, noteToEdit.tag);
+      if (success) {
+        props.showalert("notes updated successfully","success");
+        
+      } else {
+        props.showalert("some error occured during updation","danger");
+      }
     }
   };
 
@@ -38,7 +53,7 @@ const navigate=useNavigate();
   return (
     <div className='container'>
       <h1>Add Note</h1>
-      <div className="container "><AddNote /></div>
+      <div className="container "><AddNote  showalert={props.showalert} /></div>
       
 
       <h1>Your Notes</h1>
@@ -46,13 +61,13 @@ const navigate=useNavigate();
         {notes.length === 0 && <p>No notes to display</p>}
         {notes.map((note) => (
           <div className="col-md-4" key={note._id}>
-            <NoteItem note={note} onEdit={handleEditClick} />
+            <NoteItem note={note} onEdit={handleEditClick} ondelete={handledelete} />
           </div>
         ))}
       </div>
 
       {/* Single Global Modal */}
-    <div className="modal fade" id="editModal" tabIndex="-1" aria-hidden="true">
+    <div className="modal fade" id="editModal" tabIndex="-1" >
   <div className="modal-dialog">
     <div className="modal-content">
       <form
