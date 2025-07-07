@@ -22,8 +22,8 @@ const NoteState = (props) => {
     setNotes(json);
   };
 
-  // Add a note
-  const addNote = async (title, description, tag) => {
+ const addNote = async (title, description, tag) => {
+  try {
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",
       headers: {
@@ -33,13 +33,20 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag })
     });
 
+    if (!response.ok) return false; // handle non-200 responses
+
     const note = await response.json();
     setNotes(notes.concat(note));
-  };
+    return true;
+  } catch (error) {
+    console.error("Add note failed:", error);
+    return false;
+  }
+};
 
-  // Delete a note
-  const deleteNote = async (id) => {
-    await fetch(`${host}/api/notes/deletenote/${id}`, {
+const deleteNote = async (id) => {
+  try {
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -47,13 +54,20 @@ const NoteState = (props) => {
       }
     });
 
+    if (!response.ok) return false;
+
     const newNotes = notes.filter((note) => note._id !== id);
     setNotes(newNotes);
-  };
+    return true;
+  } catch (error) {
+    console.error("Delete note failed:", error);
+    return false;
+  }
+};
 
-  // Edit a note
-  const editNote = async (id, title, description, tag) => {
-    await fetch(`${host}/api/notes/updatenotes/${id}`, {
+const editNote = async (id, title, description, tag) => {
+  try {
+    const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -62,11 +76,18 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag })
     });
 
+    if (!response.ok) return false;
+
     const updatedNotes = notes.map((note) =>
       note._id === id ? { ...note, title, description, tag } : note
     );
     setNotes(updatedNotes);
-  };
+    return true;
+  } catch (error) {
+    console.error("Edit note failed:", error);
+    return false;
+  }
+};
 
   return (
     <NoteContext.Provider
