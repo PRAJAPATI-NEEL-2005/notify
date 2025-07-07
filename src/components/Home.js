@@ -21,7 +21,8 @@ const navigate=useNavigate();
    }
  useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login'); 
+      navigate('/login');
+       props.showalert("login required to access notes","warning");
     } else {
       fetchNotes(); 
     }
