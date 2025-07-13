@@ -16,65 +16,78 @@ function AddNote(props) {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const success=await addNote(note.title, note.description, note.tag);
+    const success = await addNote(note.title, note.description, note.tag);
     if (success) {
-      props.showalert("note added successfully","success");
+      props.showalert("Note added successfully", "success");
     } else {
-      props.showalert("some error occured","danger");
+      props.showalert("Some error occurred", "danger");
     }
     setNote({ title: '', description: '', tag: '' });
   };
 
   return (
-    <div className="container my-4">
-      <div className="row justify-content-start">
+    <form className="text-start" onSubmit={handleSubmit}>
+      <div className="row g-3">
         <div className="col-md-6">
-          <form className="text-start" onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">Title</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                id="title" 
-                name="title" 
-                minLength={5}
-                value={note.title}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="description" className="form-label">Description</label>
-              <textarea 
-                className="form-control" 
-                id="description" 
-                name="description" 
-                minLength={5}
-                rows="3"
-                value={note.description}
-                onChange={handleChange}
-                required
-              ></textarea>
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="tag" className="form-label">Tag</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                id="tag" 
-                name="tag" 
-                value={note.tag}
-                onChange={handleChange}
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary">Add Note</button>
-          </form>
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">Title</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              id="title" 
+              name="title" 
+              minLength={5}
+              value={note.title}
+              onChange={handleChange}
+              placeholder="Enter note title..."
+              required
+            />
+          </div>
+        </div>
+        
+        <div className="col-md-6">
+          <div className="mb-3">
+            <label htmlFor="tag" className="form-label">Tag</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              id="tag" 
+              name="tag" 
+              value={note.tag}
+              onChange={handleChange}
+              placeholder="Enter tag (e.g. work, personal, ideas)"
+            />
+          </div>
+        </div>
+        
+        <div className="col-12">
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">Description</label>
+            <textarea 
+              className="form-control" 
+              id="description" 
+              name="description" 
+              minLength={5}
+              rows="3"
+              value={note.description}
+              onChange={handleChange}
+              placeholder="What's on your mind?"
+              required
+            ></textarea>
+          </div>
+        </div>
+        
+        <div className="col-12">
+          <button 
+            type="submit" 
+            className="btn btn-primary"
+          >
+            <i className="fas fa-plus me-2"></i>
+            Add Note
+          </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 
