@@ -9,8 +9,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NoteState from "./context/notes/Notestate";
 import Authstate from "./context/authentication/Authstate";
 import Alert from "./components/Alert";
+
 function App() {
- const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState(null);
+  
   const showAlert = (msg, type) => {
     setAlert({
       message: msg,
@@ -19,27 +21,31 @@ function App() {
 
     setTimeout(() => {
       setAlert(null);
-    }, 1000);
+    }, 1500);
   };
 
   return (
     <Authstate>
-    <NoteState>
-    <div className="App">
-      <Router>
-        <Navbar  showalert={showAlert}/>
-        <Alert alert={alert}></Alert>
-        <Routes>
-          <Route path="/about"  element={<About  showalert={showAlert}/>} />
-          <Route path="/home" element={<Home  showalert={showAlert} />} />
-          <Route path="/login" element={<Login  showalert={showAlert} />} />
-          <Route path="/signup" element={<Signup  showalert={showAlert} />} />
-          {/* Default route or fallback */}
-          <Route path="*" element={<Home  showalert={showAlert} />} />
-        </Routes>
-      </Router>
-    </div>
-    </NoteState>
+      <NoteState>
+        <div className="App">
+          <Router>
+            <Navbar showalert={showAlert} />
+            <Alert alert={alert}></Alert>
+            <div className="main-content">
+              <div className="container">
+                <Routes>
+                  <Route path="/about" element={<About showalert={showAlert} />} />
+                  <Route path="/home" element={<Home showalert={showAlert} />} />
+                  <Route path="/login" element={<Login showalert={showAlert} />} />
+                  <Route path="/signup" element={<Signup showalert={showAlert} />} />
+                  {/* Default route or fallback */}
+                  <Route path="*" element={<Home showalert={showAlert} />} />
+                </Routes>
+              </div>
+            </div>
+          </Router>
+        </div>
+      </NoteState>
     </Authstate>
   );
 }
