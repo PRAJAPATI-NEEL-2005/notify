@@ -1,4 +1,3 @@
-const { use } = require('react');
 require('dotenv').config();
 const connectToMongo=require('./db.js');
 var cors = require('cors')
