@@ -4,7 +4,7 @@ import AuthContext from "./authContext";
 const Authstate = (props) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
-const host = process.env.BACKEND_SERVER;
+const host = process.env.REACT_APP_BACKEND_SERVER;
   const login = async (email, password) => {
     try {
       const response = await fetch(`${host}/api/auth/loginuser`, {

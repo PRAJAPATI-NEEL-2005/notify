@@ -4,7 +4,7 @@ import AuthContext from "../authentication/authContext";
 
 const NoteState = (props) => {
   const {token, isAuthenticated} = useContext(AuthContext)
-  const host = process.env.BACKEND_SERVER;
+  const host = process.env.REACT_APP_BACKEND_SERVER;
   const authToken = token; // replace with your actual token or store securely
 
   const [notes, setNotes] = useState([]);
