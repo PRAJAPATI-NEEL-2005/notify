@@ -4,7 +4,7 @@ import AuthContext from "../authentication/authContext";
 
 const NoteState = (props) => {
   const {token, isAuthenticated} = useContext(AuthContext)
-  const host = "http://localhost:5000";
+  const host = process.env.BACKEND_SERVER;
   const authToken = token; // replace with your actual token or store securely
 
   const [notes, setNotes] = useState([]);
