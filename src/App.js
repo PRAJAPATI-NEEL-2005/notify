@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NoteState from "./context/notes/Notestate";
 import Authstate from "./context/authentication/Authstate";
 import Alert from "./components/Alert";
+import AIChatbot from "./components/Aichatbot";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -40,6 +41,8 @@ function App() {
                   <Route path="/signup" element={<Signup showalert={showAlert} />} />
                   {/* Default route or fallback */}
                   <Route path="*" element={<Home showalert={showAlert} />} />
+                  <Route path="/AIChatbot" element={<AIChatbot showalert={showAlert} />} />
+
                 </Routes>
               </div>
             </div>
