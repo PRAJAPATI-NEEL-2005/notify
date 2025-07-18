@@ -47,6 +47,16 @@ function Navbar(props) {
                 <i className="fa-solid fa-house me-1"></i> Home
               </NavLink>
             </li>
+             <li className="nav-item">
+              <NavLink
+                className={({ isActive }) => 
+                  isActive ? "nav-link active" : "nav-link"
+                }
+                to="/AIChatbot"
+              >
+                <i className="fa-solid fa-robot"></i> AI Assistant
+              </NavLink>
+            </li>
             <li className="nav-item">
               <NavLink
                 className={({ isActive }) => 
@@ -57,16 +67,7 @@ function Navbar(props) {
                 <i className="fa-solid fa-circle-info me-1"></i> About
               </NavLink>
             </li>
-             <li className="nav-item">
-              <NavLink
-                className={({ isActive }) => 
-                  isActive ? "nav-link active" : "nav-link"
-                }
-                to="/AIChatbot"
-              >
-                <i className="fa-solid fa-circle-info me-1"></i> chatbot
-              </NavLink>
-            </li>
+            
           </ul>
           
           <div className="d-flex">
