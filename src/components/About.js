@@ -19,6 +19,10 @@ function About() {
               <p>
                 We believe that effective note-taking should be simple, intuitive, and accessible from anywhere. Our mission is to provide you with a powerful yet easy-to-use platform that adapts to your workflow, not the other way around.
               </p>
+              <p>
+                <i className="fas fa-robot me-2" style={{ color: "var(--primary)" }}></i>
+                <strong>AI Assistant:</strong> Notify includes a smart chatbot that can answer your questions based on the content of your notes. It's like having your own personal knowledge assistant!
+              </p>
             </div>
           </div>
         </div>
@@ -41,91 +45,32 @@ function About() {
       </h2>
       
       <div className="row g-4">
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="feature-icon me-3">
-                  <i className="fas fa-lock" style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
+        {/* Feature cards */}
+        {[
+          { icon: "fa-lock", title: "Secure Storage", desc: "Your notes are securely stored with end-to-end encryption, ensuring your private thoughts remain private." },
+          { icon: "fa-tags", title: "Smart Tagging", desc: "Organize your notes with custom tags for easy filtering and quick access to related content." },
+          { icon: "fa-cloud", title: "Cloud Sync", desc: "Access your notes from any device with automatic cloud synchronization." },
+          { icon: "fa-palette", title: "Beautiful UI", desc: "A clean, modern interface designed for focus and productivity with customizable themes." },
+          { icon: "fa-bolt", title: "Fast Performance", desc: "Lightning-fast search and note creation, designed to keep up with your thoughts." },
+          { icon: "fa-mobile-alt", title: "Responsive Design", desc: "Works perfectly on all devices, from smartphones to desktop computers." },
+          { icon: "fa-robot", title: "AI Assistant", desc: "Chat with Notify’s built-in assistant that understands your notes and answers your questions." },
+        ].map((feature, index) => (
+          <div className="col-md-6 col-lg-4" key={index}>
+            <div className="card shadow-sm border-0 h-100">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-3">
+                  <div className="feature-icon me-3">
+                    <i className={`fas ${feature.icon}`} style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
+                  </div>
+                  <h3 className="card-title h5 mb-0">{feature.title}</h3>
                 </div>
-                <h3 className="card-title h5 mb-0">Secure Storage</h3>
+                <p className="card-text">{feature.desc}</p>
               </div>
-              <p className="card-text">Your notes are securely stored with end-to-end encryption, ensuring your private thoughts remain private.</p>
             </div>
           </div>
-        </div>
-        
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="feature-icon me-3">
-                  <i className="fas fa-tags" style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
-                </div>
-                <h3 className="card-title h5 mb-0">Smart Tagging</h3>
-              </div>
-              <p className="card-text">Organize your notes with custom tags for easy filtering and quick access to related content.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="feature-icon me-3">
-                  <i className="fas fa-cloud" style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
-                </div>
-                <h3 className="card-title h5 mb-0">Cloud Sync</h3>
-              </div>
-              <p className="card-text">Access your notes from any device with automatic cloud synchronization, never lose your important information.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="feature-icon me-3">
-                  <i className="fas fa-palette" style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
-                </div>
-                <h3 className="card-title h5 mb-0">Beautiful UI</h3>
-              </div>
-              <p className="card-text">A clean, modern interface designed for focus and productivity with customizable themes.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="feature-icon me-3">
-                  <i className="fas fa-bolt" style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
-                </div>
-                <h3 className="card-title h5 mb-0">Fast Performance</h3>
-              </div>
-              <p className="card-text">Lightning-fast search and note creation, designed to keep up with your thoughts.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="col-md-6 col-lg-4">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="feature-icon me-3">
-                  <i className="fas fa-mobile-alt" style={{ color: "var(--primary)", fontSize: "1.5rem" }}></i>
-                </div>
-                <h3 className="card-title h5 mb-0">Responsive Design</h3>
-              </div>
-              <p className="card-text">Works perfectly on all devices, from smartphones to desktop computers.</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
-      
+
       <div className="card shadow-sm border-0 mt-4 mb-4">
         <div className="card-body">
           <h2 className="section-title">
@@ -164,10 +109,13 @@ function About() {
           </div>
         </div>
       </div>
-      
-      
-      
-      
+
+      {/* Made with Love */}
+      <div className="text-center mt-4 mb-4">
+        <p className="text-muted">
+          Made with <i className="fas fa-heart text-danger"></i> by <strong>Neel</strong>
+        </p>
+      </div>
     </div>
   );
 }
