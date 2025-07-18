@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import NoteContext from "../context/notes/noteContext";
 import AuthContext from "../context/authentication/authContext";
 import axios from "axios";
@@ -7,22 +7,24 @@ const AIChatbot = () => {
   const { notes } = useContext(NoteContext);
   const { isAuthenticated } = useContext(AuthContext);
   const [messages, setMessages] = useState(() => {
-    // 1. Initialize messages from localStorage or with default bot message
     const savedMessages = localStorage.getItem("chatbotMessages");
     return savedMessages
       ? JSON.parse(savedMessages)
       : [{ sender: "bot", text: "Hi! Ask me anything from your notes or general knowledge." }];
   });
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const chatBodyRef = useRef(null);
   const cohereApiKey = process.env.REACT_APP_COHERE_API_KEY;
 
-  // 2. Save messages to localStorage whenever the messages state changes
+  // Scroll to bottom on new messages
   useEffect(() => {
     localStorage.setItem("chatbotMessages", JSON.stringify(messages));
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
   }, [messages]);
-
 
   if (!isAuthenticated) {
     return (
@@ -38,16 +40,13 @@ const AIChatbot = () => {
   }
 
   const handleSend = async () => {
-    if (!input.trim()) return;
-    if (!isAuthenticated) {
-      setMessages(prev => [...prev, { sender: "bot", text: "Please log in to use the AI assistant." }]);
-      return;
-    }
+    const trimmed = input.trim();
+    if (!trimmed) return;
 
-    const userMsg = { sender: "user", text: input };
+    const userMsg = { sender: "user", text: trimmed };
     setMessages((prev) => [...prev, userMsg]);
-    setLoading(true);
     setInput("");
+    setLoading(true);
 
     const notesText = notes.map((note, i) =>
       `Note ${i + 1}: ${note.title} - ${note.description}`
@@ -58,7 +57,7 @@ You are a helpful assistant. Use these notes if possible to answer:
 
 ${notesText}
 
-User question: "${input}"
+User question: "${trimmed}"
 
 If the answer isn't in the notes, give a general response.
 `;
@@ -79,7 +78,7 @@ If the answer isn't in the notes, give a general response.
         }
       );
 
-      const reply = response.data.text;
+      const reply = response.data.text || "I'm not sure, but I'll try to help.";
       setMessages((prev) => [...prev, { sender: "bot", text: reply.trim() }]);
     } catch (err) {
       console.error("Cohere error:", err);
@@ -90,21 +89,25 @@ If the answer isn't in the notes, give a general response.
   };
 
   return (
-    <div className="card shadow mt-4">
-      <div className="card-header bg-primary text-white">
+    <div className="chatbot-container">
+      <div className="card-header bg-primary text-white text-center">
         <i className="fas fa-robot me-2"></i>AI Assistant
       </div>
-      <div className="card-body p-3" style={{ maxHeight: "300px", overflowY: "auto" }}>
+
+      <div className="chat-body" ref={chatBodyRef}>
         {messages.map((m, i) => (
-          <div key={i} className={`mb-2 text-${m.sender === "user" ? "end" : "start"}`}>
-            <span className={`d-inline-block p-2 rounded ${m.sender === "user" ? "bg-info text-white" : "bg-light border"}`}>
+          <div key={i} className={`d-flex ${m.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-2`}>
+            <div className={`p-2 rounded ${m.sender === "user" ? "bg-info text-white" : "bg-light border"}`}>
               {m.text}
-            </span>
+            </div>
           </div>
         ))}
-        {loading && <div className="text-muted">Thinking...</div>}
+        {loading && (
+          <div className="d-flex justify-content-start text-muted small">Thinking...</div>
+        )}
       </div>
-      <div className="card-footer p-2 d-flex gap-2">
+
+      <div className="chat-input-area">
         <input
           type="text"
           className="form-control"
@@ -112,8 +115,13 @@ If the answer isn't in the notes, give a general response.
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          disabled={loading}
         />
-        <button className="btn btn-primary" onClick={handleSend} disabled={loading}>
+        <button
+          className="btn btn-primary"
+          onClick={handleSend}
+          disabled={loading || !input.trim()}
+        >
           Send
         </button>
       </div>
