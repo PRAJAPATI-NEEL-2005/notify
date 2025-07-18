@@ -9,6 +9,7 @@ function Navbar(props) {
   
   const handlelogout = () => {
     localStorage.removeItem("token"); 
+    localStorage.removeItem("chatbotMessages");
     setIsAuthenticated(false);     
     props.showalert("Logged out successfully", "success");
     navigate("/login");  
@@ -54,6 +55,16 @@ function Navbar(props) {
                 to="/about"
               >
                 <i className="fa-solid fa-circle-info me-1"></i> About
+              </NavLink>
+            </li>
+             <li className="nav-item">
+              <NavLink
+                className={({ isActive }) => 
+                  isActive ? "nav-link active" : "nav-link"
+                }
+                to="/AIChatbot"
+              >
+                <i className="fa-solid fa-circle-info me-1"></i> chatbot
               </NavLink>
             </li>
           </ul>
