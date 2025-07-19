@@ -10,7 +10,7 @@ import NoteState from "./context/notes/Notestate";
 import Authstate from "./context/authentication/Authstate";
 import Alert from "./components/Alert";
 import AIChatbot from "./components/Aichatbot";
-
+import YourNotes from "./components/Yournotes";
 function App() {
   const [alert, setAlert] = useState(null);
   
@@ -42,7 +42,7 @@ function App() {
                   {/* Default route or fallback */}
                   <Route path="*" element={<Home showalert={showAlert} />} />
                   <Route path="/AIChatbot" element={<AIChatbot showalert={showAlert} />} />
-
+                   <Route exact path="/yournotes" element={<YourNotes showalert={showAlert} />} />
                 </Routes>
               </div>
             </div>
