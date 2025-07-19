@@ -18,7 +18,6 @@ const AIChatbot = () => {
   const chatBodyRef = useRef(null);
   const cohereApiKey = process.env.REACT_APP_COHERE_API_KEY;
 
-  // Scroll to bottom on new messages
   useEffect(() => {
     localStorage.setItem("chatbotMessages", JSON.stringify(messages));
     if (chatBodyRef.current) {
@@ -92,6 +91,14 @@ If the answer isn't in the notes, give a general response.
     <div className="chatbot-container">
       <div className="card-header bg-primary text-white text-center">
         <i className="fas fa-robot me-2"></i>AI Assistant
+      </div>
+
+      
+      <div className="p-3 border-bottom bg-light small text-muted">
+        <p className="mb-1">
+          🤖 <strong>Meet Notify's AI Assistant</strong> — your smart helper to quickly find answers from your saved notes or ask general knowledge questions.
+        </p>
+        <p className="mb-0">Start by typing a question like <em>"What's in my math note?"</em> or <em>"Who is Einstein?"</em></p>
       </div>
 
       <div className="chat-body" ref={chatBodyRef}>
