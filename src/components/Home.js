@@ -37,7 +37,7 @@ function Home(props) {
 
   return (
     <div className="container my-5">
-      <div className="jumbotron p-4 p-md-5 text-white rounded bg-light mb-4 shadow-sm">
+      <div className="jumbotron p-4 p-md-5 text-white rounded bg-white mb-4 shadow-sm">
         <div className="col-md-10 px-0">
           <h1 className="display-5 fw-bold text-dark">Welcome to <span className="text-primary">Notify</span> ✍️</h1>
           <p className="lead text-muted mt-3">
@@ -62,7 +62,7 @@ function Home(props) {
         <AddNote showalert={props.showalert} />
       </div>
 
-      <div className="latest-notes-section">
+      <div className="latest-notes-section bg-white">
         <h2 className="section-title">
           <i className="fas fa-star me-2"></i> Latest Notes
         </h2>
