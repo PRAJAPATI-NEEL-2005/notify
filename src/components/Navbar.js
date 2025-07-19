@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import AuthContext from "../context/authentication/authContext";
 
 function Navbar(props) {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
+  
   
   const handlelogout = () => {
     localStorage.removeItem("token"); 
@@ -16,7 +16,7 @@ function Navbar(props) {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg shadow-sm" style={{ backgroundColor: "white" }}>
+    <nav className="navbar navbar-expand-lg shadow-sm mb-0 pb-0" style={{ backgroundColor: "white" }}>
       <div className="container">
         <NavLink className="navbar-brand d-flex align-items-center" to="/">
           <i className="fa-solid fa-note-sticky me-2" style={{ color: "var(--primary)" }}></i>
@@ -45,6 +45,16 @@ function Navbar(props) {
                 to="/home"
               >
                 <i className="fa-solid fa-house me-1"></i> Home
+              </NavLink>
+            </li>
+             <li className="nav-item">
+              <NavLink
+                className={({ isActive }) => 
+                  isActive ? "nav-link active" : "nav-link"
+                }
+                to="/yournotes"
+              >
+                <i className="fa-solid fa-note-sticky"></i> Notes
               </NavLink>
             </li>
              <li className="nav-item">
