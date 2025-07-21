@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+
 import About from "./components/About";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
@@ -11,6 +12,7 @@ import Authstate from "./context/authentication/Authstate";
 import Alert from "./components/Alert";
 import AIChatbot from "./components/Aichatbot";
 import YourNotes from "./components/Yournotes";
+
 function App() {
   const [alert, setAlert] = useState(null);
   
@@ -32,6 +34,7 @@ function App() {
           <Router>
             <Navbar showalert={showAlert} />
             <Alert alert={alert}></Alert>
+        
             <div className="main-content">
               <div className="container">
                 <Routes>
