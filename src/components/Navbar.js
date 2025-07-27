@@ -4,7 +4,7 @@ import AuthContext from "../context/authentication/authContext";
 import './ProfileAnimation.css'; // Make sure this path is correct
 
 function Navbar(props) {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated ,setUser,user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showProfileCard, setShowProfileCard] = useState(false);
   const profileRef = useRef(); // Ref for the profile container to detect clicks outside
@@ -12,7 +12,9 @@ function Navbar(props) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("chatbotMessages");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
+    setUser(null);
     props.showalert("Logged out successfully", "success");
     navigate("/login");
   };
@@ -114,13 +116,20 @@ function Navbar(props) {
                   className={`profile-card-dropdown shadow ${showProfileCard ? "is-shown" : ""}`}
                   aria-hidden={!showProfileCard}
                 >
-                  <div className="card-body text-center">
-                    <i className="fa-solid fa-user-circle fa-2x mb-2" aria-hidden="true"></i>
-                    <p className="mb-2">Welcome!</p>
-                    <button className="btn btn-sm btn-outline-danger" onClick={handleLogout}>
-                      <i className="fa-solid fa-right-from-bracket me-1" aria-hidden="true"></i> Logout
-                    </button>
-                  </div>
+                 <div className="card-body text-center">
+  <i className="fa-solid fa-user-circle fa-2x mb-2" aria-hidden="true"></i>
+  {user ? (
+    <>
+      <p className="mb-1 fw-bold">{user.name}</p>
+      <p className="mb-2 text-muted" style={{ fontSize: "0.9rem" }}>{user.email}</p>
+    </>
+  ) : (
+    <p className="mb-2">Loading...</p>
+  )}
+  <button className="btn btn-sm btn-outline-danger" onClick={handleLogout}>
+    <i className="fa-solid fa-right-from-bracket me-1" aria-hidden="true"></i> Logout
+  </button>
+</div>
                 </div>
               </>
             ) : (
