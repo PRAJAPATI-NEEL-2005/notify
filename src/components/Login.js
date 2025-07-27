@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import AuthContext from '../context/authentication/authContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Login(props) {
   const { login } = useContext(AuthContext);
@@ -87,7 +88,7 @@ function Login(props) {
         
         <div className="text-center mt-4">
           <small className="text-muted">
-            Forgot your password? <a href="#!" className="text-decoration-none">Reset it here</a>
+            Forgot your password? <Link to="/forgot-password" className="text-decoration-none">Reset it here</Link>
           </small>
         </div>
       </div>
