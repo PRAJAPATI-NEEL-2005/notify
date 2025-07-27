@@ -12,7 +12,9 @@ import Authstate from "./context/authentication/Authstate";
 import Alert from "./components/Alert";
 import AIChatbot from "./components/Aichatbot";
 import YourNotes from "./components/Yournotes";
-
+import ForgotPassword from "./components/ForgotPassword";
+import VerifyOTP from "./components/VerifyOtp";
+import ResetPassword from "./components/ResetPassword";
 function App() {
   const [alert, setAlert] = useState(null);
   
@@ -46,6 +48,9 @@ function App() {
                   <Route path="*" element={<Home showalert={showAlert} />} />
                   <Route path="/AIChatbot" element={<AIChatbot showalert={showAlert} />} />
                    <Route exact path="/yournotes" element={<YourNotes showalert={showAlert} />} />
+                   <Route path="/forgot-password" element={<ForgotPassword showalert={showAlert} />} />
+<Route path="/verify-otp" element={<VerifyOTP showalert={showAlert} />} />
+<Route path="/reset-password" element={<ResetPassword showalert={showAlert} />} />
                 </Routes>
               </div>
             </div>
