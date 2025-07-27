@@ -6,9 +6,76 @@ const router = express.Router();
 var jwt = require("jsonwebtoken");
 const fetchuser = require("../Middleware/fetchuser");
 const JWT_SECRET = "neelisag$oy";
+const sendEmail = require("../Utility/sendEmail")
 // @route   POST /
 // @desc    Register user
 // @access  Public
+
+function generateOTP() {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+  const expiry = Date.now() + 10 * 60 * 1000; // expires in 10 minutes
+  return { otp, expiry };
+}
+
+//Route  to request reset
+router.post("/request-reset", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ success: false, error: "User not found" });
+
+    const { otp, expiry } = generateOTP();
+    user.otp = otp;
+    user.otpExpires = new Date(expiry);
+    await user.save();
+
+    // Send OTP via email using nodemailer
+    await sendEmail(email, `Your OTP is ${otp}`);
+
+    return res.json({ success: true, message: "OTP sent to email" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
+//Route to verify otp
+router.post("/verify-otp", async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user || user.otp !== otp || user.otpExpires < Date.now()) {
+    return res.status(400).json({ success: false, error: "Invalid or expired OTP" });
+  }
+
+  return res.json({ success: true, message: "OTP verified" });
+});
+
+
+// route to reset password
+router.post("/reset-password", async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user || user.otp !== otp || user.otpExpires < Date.now()) {
+    return res.status(400).json({ success: false, error: "Invalid or expired OTP" });
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(newPassword, salt);
+  user.otp = null;
+  user.otpExpires = null;
+  await user.save();
+
+  return res.json({ success: true, message: "Password reset successful" });
+});
+
+
+
+
+
+
+
 
 // ROUTE :1 createuser path : "http://localhost:5000/api/auth/createuser" that is the api for to create user
 router.post(
