@@ -1,0 +1,43 @@
+/* ProfileAnimation.css */
+
+.profile-avatar-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile-avatar-image:hover {
+  transform: scale(1.05);
+}
+
+.profile-card-dropdown {
+  position: absolute;
+  top: 100%; /* Place just below the avatar */
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 200px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 999;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.profile-card-dropdown.is-shown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Add this if needed for layout clarity */
+.profile-dropdown-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
