@@ -19,6 +19,13 @@ const userSchema = new Schema({
     type: Date,
     required :true,
     default :Date.now
- }
+ },
+ otp: {
+  type: String,
+},
+otpExpires: {
+  type: Date,
+}
+
 });
 module.exports =mongoose.model('User',userSchema);
