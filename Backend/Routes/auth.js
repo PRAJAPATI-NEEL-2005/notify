@@ -30,7 +30,21 @@ router.post("/request-reset", async (req, res) => {
     await user.save();
 
     // Send OTP via email using nodemailer
-    await sendEmail(email, `Your OTP is ${otp}`);
+    await sendEmail(email, `We received a request to reset your password for your Notify account.
+
+Your One-Time Password (OTP) is:
+
+🔐 OTP: ${otp}
+
+Please enter this OTP in the app to verify your identity and reset your password.
+Note: This OTP will expire in 10 minutes for your security.
+
+If you did not request a password reset, please ignore this email.
+For any issues, contact our support team.
+
+Thanks,  
+The Notify Team
+`);
 
     return res.json({ success: true, message: "OTP sent to email" });
   } catch (err) {
