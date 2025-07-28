@@ -4,7 +4,7 @@ import AuthContext from "../context/authentication/authContext";
 import './ProfileAnimation.css'; // Make sure this path is correct
 
 function Navbar(props) {
-  const { isAuthenticated, setIsAuthenticated ,setUser,user } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated ,setUser,user,getUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showProfileCard, setShowProfileCard] = useState(false);
   const profileRef = useRef(); // Ref for the profile container to detect clicks outside
@@ -18,6 +18,16 @@ function Navbar(props) {
     props.showalert("Logged out successfully", "success");
     navigate("/login");
   };
+
+
+useEffect(() => {
+  const fetchUserIfNeeded = async () => {
+    if (isAuthenticated && !user) {
+      await getUser();  // Fetch from backend and store
+    }
+  };
+  fetchUserIfNeeded();
+}, [isAuthenticated, user, getUser]);
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
