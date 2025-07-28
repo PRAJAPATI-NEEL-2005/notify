@@ -29,47 +29,91 @@ const NoteItem = ({ note, onEdit, ondelete }) => {
     return colors[Math.abs(hash) % colors.length];
   };
 
+const speakNote = ( description) => {
+  const text = ` ${description}`;
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  const setFemaleVoice = () => {
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return;
+
+    // Find a voice with a typically female name or known female voice
+    const femaleVoices = voices.filter(voice =>
+      /Samantha|Karen|Victoria|Zira|Jenny|Google US English|female|en-US/i.test(voice.name)
+    );
+
+    // Use preferred female voice or fallback to the first available
+    utterance.voice = femaleVoices[0] || voices[0];
+
+    utterance.lang = utterance.voice.lang || 'en-US';
+    utterance.rate = 1;
+    utterance.pitch = 1.2; // More feminine tone
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // Handle async loading of voices
+  if (window.speechSynthesis.getVoices().length === 0) {
+    window.speechSynthesis.onvoiceschanged = setFemaleVoice;
+  } else {
+    setFemaleVoice();
+  }
+};
+
+
+
   return (
-    <div className="card note-card h-100">
-      <div className="card-body">
-        <h5 className="card-title">{note.title}</h5>
-        
-        {note.tag && (
-          <div 
-            className="note-tag"
-            style={{ backgroundColor: getTagColor(note.tag) }}
-          >
-            {note.tag}
-          </div>
-        )}
-        
-        <p className="card-text">{note.description}</p>
-        
-        <div className="d-flex justify-content-between align-items-center mt-auto">
-          <small className="text-muted">
-            <i className="far fa-clock me-1"></i> {formatDate(note.date)}
-          </small>
-          
-          <div className="note-card-actions">
-            <button 
-              className="btn btn-sm btn-outline-primary me-2" 
-              onClick={() => onEdit(note)}
-              title="Edit"
-            >
-              <i className="fa-solid fa-pen-to-square"></i>
-            </button>
-            
-            <button 
-              className="btn btn-sm btn-outline-danger" 
-              onClick={() => ondelete(note._id)}
-              title="Delete"
-            >
-              <i className="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </div>
+  <div className="card note-card h-100">
+  <div className="card-body">
+    <h5 className="card-title">{note.title}</h5>
+
+    {note.tag && (
+      <div 
+        className="note-tag"
+        style={{ backgroundColor: getTagColor(note.tag) }}
+      >
+        {note.tag}
+      </div>
+    )}
+
+    <p className="card-text">{note.description}</p>
+
+    <div className="d-flex justify-content-between align-items-center mt-auto">
+      <small className="text-muted">
+        <i className="far fa-clock me-1"></i> {formatDate(note.date)}
+      </small>
+
+      <div className="note-card-actions d-flex gap-2">
+        {/* 👇 Speak Button */}
+        <button 
+          className="btn btn-sm btn-outline-secondary" 
+          onClick={() => speakNote( note.description)}
+          title="Speak Note"
+        >
+          <i className="fa-solid fa-volume-high"></i>
+        </button>
+
+        {/* ✏️ Edit Button */}
+        <button 
+          className="btn btn-sm btn-outline-primary" 
+          onClick={() => onEdit(note)}
+          title="Edit"
+        >
+          <i className="fa-solid fa-pen-to-square"></i>
+        </button>
+
+        {/* 🗑️ Delete Button */}
+        <button 
+          className="btn btn-sm btn-outline-danger" 
+          onClick={() => ondelete(note._id)}
+          title="Delete"
+        >
+          <i className="fa-solid fa-trash"></i>
+        </button>
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 
