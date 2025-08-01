@@ -9,6 +9,7 @@ function YourNotes(props) {
   const { notes, fetchNotes, editNote, deleteNote } = context;
   const { isAuthenticated } = useContext(AuthContext);
   const [noteToEdit, setNoteToEdit] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const handledelete = async (note_id) => {
@@ -59,6 +60,16 @@ function YourNotes(props) {
     setNoteToEdit({ ...noteToEdit, [e.target.name]: e.target.value });
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.tag.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mt-0">
       <h1 className="section-title">
@@ -66,20 +77,33 @@ function YourNotes(props) {
       </h1>
       <hr />
 
-      {notes.length === 0 ? (
+      {/* Search Input */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search notes by title, description or tag..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
+
+      {filteredNotes.length === 0 ? (
         <div className="empty-notes text-center py-5">
           <i className="fas fa-file-alt fa-3x text-muted mb-3"></i>
-          <p className="lead">No notes to display. Start by adding one!</p>
+          <p className="lead">
+            {searchTerm ? 'No notes match your search.' : 'No notes to display. Start by adding one!'}
+          </p>
         </div>
       ) : (
         <div className="note-grid">
-          {notes.map((note) => (
+          {filteredNotes.map((note) => (
             <NoteItem key={note._id} note={note} onEdit={handleEditClick} ondelete={handledelete} />
           ))}
         </div>
       )}
 
-      {/* Edit Modal (remains the same) */}
+      {/* Edit Modal */}
       <div className="modal fade" id="editModal" tabIndex="-1">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
