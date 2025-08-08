@@ -188,13 +188,29 @@ const NoteItem = ({ note, onEdit, ondelete }) => {
                 </div>
 
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </button>
+                 
+                   <button
+    type="button"
+    className="btn btn-info"
+    onClick={() => {
+      const shareData = {
+        title: note.title,
+        text: `Title: ${note.title}\n\nDescription: ${note.description}\n\nTag: ${note.tag}`,
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData)
+          .catch(err => console.error('Error sharing:', err));
+      } else {
+        navigator.clipboard.writeText(`${shareData.title}\n\n${shareData.text}`)
+          .then(() => alert("Note copied to clipboard!"))
+          .catch(err => console.error('Error copying:', err));
+      }
+    }}
+  >
+    <i className="fa-solid fa-share-nodes me-1"></i> Share
+  </button>
+
                   <button
                     type="button"
                     className="btn btn-success"
