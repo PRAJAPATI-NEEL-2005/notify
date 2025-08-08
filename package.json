@@ -10,6 +10,8 @@
     "axios": "^1.10.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
     "mongoose": "^8.0.3",
     "open": "^10.2.0",
     "openai": "^5.10.1",
